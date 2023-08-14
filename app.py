@@ -8,10 +8,9 @@ from utility import f1_score
 
 app = Flask(__name__)
 
-# Load the Haar cascade for face detection
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
-# Load the model
+# loading the model
 with tf.keras.utils.CustomObjectScope({"f1_score": f1_score}):
     model = load_model('../model/EmoModel.h5')
 print(model.summary())
@@ -37,7 +36,6 @@ def analyze():
 
     # Use Haar cascades to detect faces
     faces = face_cascade.detectMultiScale(img, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
-
     # Process each detected face
     for (x, y, w, h) in faces:
         face_img = cv2.resize(img[y:y + h, x:x + w], (96, 96))
